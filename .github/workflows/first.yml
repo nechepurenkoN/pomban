@@ -12,7 +12,7 @@ jobs:
       - name: Step one
         uses: actions/checkout@v2
       - name: Step two
-        run: evn | sort
+        run: env | sort
 
   job2:
     name: Second job
