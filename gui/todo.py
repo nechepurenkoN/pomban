@@ -2,6 +2,7 @@ import logging
 
 from PyQt5 import QtWidgets
 
+from gui.common import ListWidget
 from model.todo import Todo
 from service.mediator import Mediator
 
@@ -30,38 +31,6 @@ class AddTaskWidget(QtWidgets.QFrame):
         self._task_name_input.setText("")
 
 
-class TodoListItem(QtWidgets.QFrame):
-    def __init__(self, todo: Todo):
-        super().__init__()
-        self._main_layout = QtWidgets.QHBoxLayout()
-        self.setSizePolicy(QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed))
-        self.setLayout(self._main_layout)
-        self._name_label = QtWidgets.QLabel(f"{todo.name}")
-        self._move_button = QtWidgets.QPushButton(">")
-        self._main_layout.addWidget(self._name_label)
-        self._main_layout.addWidget(self._move_button)
-        self.setStyleSheet("border: 1px solid red")
-
-
-class ListWidget(QtWidgets.QFrame):
-    def __init__(self):
-        super().__init__()
-        self._todos = []
-        self._main_layout = QtWidgets.QVBoxLayout()
-        self.setLayout(self._main_layout)
-        self.setStyleSheet("border: 1px solid red")
-
-    def push_todo(self, todo: Todo):
-        self._todos.insert(0, todo)
-        self._main_layout.insertWidget(0, TodoListItem(todo))
-        self._main_layout.addStretch()
-        self._render()
-
-    def _render(self):
-        QtWidgets.QApplication.processEvents()
-        logging.info(f"Rendered: {self._todos}")
-
-
 class TodoListWidget(QtWidgets.QFrame):
     def __init__(self):
         super().__init__()
@@ -76,3 +45,6 @@ class TodoListWidget(QtWidgets.QFrame):
 
     def push_todo(self, todo: Todo):
         self._todo_list.push_todo(todo)
+
+    def pop_todo(self, todo: Todo):
+        self._todo_list.pop_todo(todo)
